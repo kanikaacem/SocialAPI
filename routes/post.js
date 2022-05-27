@@ -16,10 +16,8 @@ router.post("/savePost", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    (await Post.findById(req.params.id))
-      ? Post.findById(req.params.id).remove()
-      : res.send("Post is already deleted");
-    res.status(200).json("Post is deleted");
+    await Post.findById(req.params.id).remove();
+    res.status(200).send("Post is deleted");
   } catch (err) {
     res.status(500).json(err);
   }
@@ -28,8 +26,8 @@ router.delete("/:id", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    //!post to check the post present or not,
-    !post && res.send("post not available");
+    //If the post doesn't have any value then
+    //!post && res.json("Post is not present");
     res.status(200).send(post);
   } catch (err) {
     res.status(500).json(err);
